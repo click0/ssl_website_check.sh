@@ -16,6 +16,8 @@ DOMAINS=(
 DOMAINS_LIST="google.de yahoo.com flickr.com"
 #DOMAIN_LIST=$(ls /home/user100domain/data/www | egrep -v 'tar|gz|bz2|::')
 
+ping_packet_count="2"
+
 function check_ssl_cert()
 {
     host=$1
@@ -29,6 +31,11 @@ function check_ssl_cert()
     else
         starttls=""
     fi
+
+	if (! ping -q -c${ping_packet_count} $host > /dev/null 2>&1); then
+	    printf "| %30s | %5s | %-109s |\n" "$host" "$port" "No ping to host!"
+		continue;
+	fi
 
     cert=`openssl s_client -servername $host -host $host -port $port -showcerts $starttls -prexit </dev/null 2>/dev/null |
               sed -n '/BEGIN CERTIFICATE/,/END CERT/p' |
