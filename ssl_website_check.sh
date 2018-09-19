@@ -13,6 +13,9 @@ DOMAINS=(
 'gmail-smtp-in.l.google.com. 25 smtp'
 )
 
+DOMAINS_LIST="google.de yahoo.com flickr.com"
+#DOMAIN_LIST=$(ls /home/user100domain/data/www | egrep -v 'tar|gz|bz2|::')
+
 function check_ssl_cert()
 {
     host=$1
@@ -52,6 +55,11 @@ printf "| %30s | %5s | %-13s | %-40s | %-50s |\n" "Domain" "Port" "Expire (days)
 printf "%s\n" "|--------------------------------|-------|---------------|------------------------------------------|----------------------------------------------------|"
 if [[ ${DOMAINS[@]} ]]; then
 	for domain in "${DOMAINS[@]}"; do
+		check_ssl_cert $domain
+	done
+fi
+if [ -n "${DOMAINS_LIST}" ]; then
+	for domain in ${DOMAINS_LIST}; do
 		check_ssl_cert $domain
 	done
 fi
