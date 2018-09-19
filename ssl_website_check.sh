@@ -16,7 +16,7 @@ DOMAINS=(
 function check_ssl_cert()
 {
     host=$1
-    port=$2
+    port=${2:-"443"}
     proto=$3
 
     if [ -n "$proto" ]
