@@ -19,6 +19,7 @@ function check_ssl_cert()
     port=${2:-"443"}
     proto=$3
 
+	[ -z $host ] && break;
     if [ -n "$proto" ]
     then
         starttls="-starttls $proto"
