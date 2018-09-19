@@ -44,6 +44,7 @@ function check_ssl_cert()
     printf "| %30s | %5s | %-13s | %-40s | %-50s |\n" "$host" "$port" "$end_date" "$serial" "${issuer:0:50}"
 }
 
+[ ! -e /usr/bin/openssl ] && { echo "The package openssl is not installed!"; exit; }
 
 printf "%s\n" "/--------------------------------------------------------------------------------------------------------------------------------------------------------\\"
 printf "| %30s | %5s | %-13s | %-40s | %-50s |\n" "Domain" "Port" "Expire (days)" "Serial" "Issuer"
