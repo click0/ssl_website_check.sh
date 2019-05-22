@@ -14,7 +14,7 @@ DOMAINS=(
 )
 
 DOMAINS_LIST="google.de yahoo.com flickr.com"
-#DOMAIN_LIST=$(ls /home/user100domain/data/www | egrep -v 'tar|gz|bz2|::')
+# DOMAIN_LIST=$(ls /home/user100domain/data/www | egrep -v 'tar|gz|bz2|::')
 
 ping_packet_count="2"
 
@@ -24,7 +24,7 @@ function check_ssl_cert()
     port=${2:-"443"}
     proto=$3
 
-	[ -z $host ] && break;
+    [ -z $host ] && break;
     if [ -n "$proto" ]
     then
         starttls="-starttls $proto"
@@ -32,10 +32,10 @@ function check_ssl_cert()
         starttls=""
     fi
 
-	if (! ping -q -c${ping_packet_count} $host > /dev/null 2>&1); then
-	    printf "| %30s | %5s | %-109s |\n" "$host" "$port" "No ping to host!"
-		continue;
-	fi
+    if (! ping -q -c${ping_packet_count} $host > /dev/null 2>&1); then
+        printf "| %30s | %5s | %-109s |\n" "$host" "$port" "No ping to host!"
+        continue;
+    fi
 
     cert=`openssl s_client -servername $host -host $host -port $port -showcerts $starttls -prexit </dev/null 2>/dev/null |
               sed -n '/BEGIN CERTIFICATE/,/END CERT/p' |
@@ -61,13 +61,13 @@ printf "%s\n" "/----------------------------------------------------------------
 printf "| %30s | %5s | %-13s | %-40s | %-50s |\n" "Domain" "Port" "Expire (days)" "Serial" "Issuer"
 printf "%s\n" "|--------------------------------|-------|---------------|------------------------------------------|----------------------------------------------------|"
 if [[ ${DOMAINS[@]} ]]; then
-	for domain in "${DOMAINS[@]}"; do
-		check_ssl_cert $domain
-	done
+    for domain in "${DOMAINS[@]}"; do
+        check_ssl_cert $domain
+    done
 fi
 if [ -n "${DOMAINS_LIST}" ]; then
-	for domain in ${DOMAINS_LIST}; do
-		check_ssl_cert $domain
-	done
+    for domain in ${DOMAINS_LIST}; do
+        check_ssl_cert $domain
+    done
 fi
 printf "%s\n" "\\--------------------------------------------------------------------------------------------------------------------------------------------------------/"
