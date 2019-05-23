@@ -36,10 +36,10 @@ check_ssl_cert()
         starttls=""
     fi
 
-    if ! ping -q -c${ping_packet_count} $host > /dev/null 2>&1; then
-        printf "| %30s | %5s | %-109s |\n" "$host" "$port" "No ping to host!"
-        return;
-    fi
+#    if ! ping -q -c${ping_packet_count} $host > /dev/null 2>&1; then
+#        printf "| %30s | %5s | %-109s |\n" "$host" "$port" "No ping to host!"
+#        return;
+#    fi
 
     cert=`openssl s_client -servername $host -host $host -port $port -showcerts $starttls -prexit </dev/null 2>/dev/null |
               sed -n '/BEGIN CERTIFICATE/,/END CERT/p' |
